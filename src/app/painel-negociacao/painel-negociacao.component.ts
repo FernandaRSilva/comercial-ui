@@ -24,5 +24,13 @@ export class PainelNegociacaoComponent implements OnInit {
       .subscribe(resposta => this.oportunidades = <any> resposta)
   }
 
+  adicionar() {
+    this.oportunidadeService.adicionar(this.oportunidade)
+      .subscribe(() => {
+        this.oportunidade = {};
+        this.consultar();
+      });
+  }
+
 
 }
