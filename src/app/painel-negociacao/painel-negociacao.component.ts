@@ -1,5 +1,6 @@
 import { OportunidadeService } from './../oportunidade.service';
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-painel-negociacao',
@@ -13,7 +14,10 @@ export class PainelNegociacaoComponent implements OnInit {
 
   nome = 'João';
 
-  constructor(private oportunidadeService: OportunidadeService) { }
+  constructor(
+    private oportunidadeService: OportunidadeService,
+    private messageService: MessageService
+    ) { }
 
   ngOnInit() {
     this.consultar();
@@ -29,6 +33,23 @@ export class PainelNegociacaoComponent implements OnInit {
       .subscribe(() => {
         this.oportunidade = {};
         this.consultar();
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Oportunidade adicionada com sucesso!'
+        });
+      },
+      resposta =>{
+        let msg = 'Erro Inesperado. Tente novamente';
+
+        if(resposta.error.message){
+          msg = resposta.error.message;
+        }
+
+        this.messageService.add({
+          severity: 'error',
+          summary: msg
+        });
       });
   }
 
